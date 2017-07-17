@@ -52,13 +52,14 @@ def generate_code(input_file, output_dir, global_conf, local_conf, autorest_bin=
 
     cmd_line = autorest_bin + " --version={} {}"
     cmd_line = cmd_line.format(str(autorest_version), params)
-    _LOGGER.info("Autorest cmd line:\n%s", cmd_line)
+    cwd = str(input_path)
+    _LOGGER.info("Autorest cmd line (cwd: %s):\n%s", cwd, cmd_line)
 
     try:
         result = subprocess.check_output(cmd_line.split(),
                                          stderr=subprocess.STDOUT,
                                          universal_newlines=True,
-                                         cwd=str(input_path))
+                                         cwd=cwd)
     except subprocess.CalledProcessError as err:
         _LOGGER.error(err)
         _LOGGER.error(err.output)
